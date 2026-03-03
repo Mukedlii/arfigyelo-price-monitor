@@ -1,5 +1,7 @@
 # 🇭🇺 GVH Árfigyelő – Hungarian Price Monitor
 
+![Árfigyelő logo](assets/logo.jpg)
+
 **Track daily prices on Hungary's official GVH Árfigyelő system. Get Telegram alerts when prices drop, new products appear, or a price falls below your target.**
 
 > Covers Auchan, Tesco, Lidl, Aldi, Spar, Penny — ~2,000 food products, updated daily by law.
