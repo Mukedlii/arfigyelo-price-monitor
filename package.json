@@ -1,0 +1,21 @@
+{
+    "name": "arfigyelo-price-monitor",
+    "version": "1.0.0",
+    "description": "Apify Actor: Hungarian GVH Árfigyelő price monitor with Telegram alerts and delta deduplication",
+    "main": "src/main.js",
+    "type": "module",
+    "scripts": {
+        "start": "node src/main.js",
+        "start:dev": "apify run"
+    },
+    "dependencies": {
+        "apify": "^3.2.2",
+        "crawlee": "^3.5.8",
+        "playwright": "^1.52.0",
+        "node-fetch": "^3.3.2"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "license": "Apache-2.0"
+}

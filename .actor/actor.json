@@ -1,0 +1,11 @@
+{
+    "actorSpecification": 1,
+    "name": "arfigyelo-price-monitor",
+    "title": "GVH Árfigyelő – Hungarian Price Monitor",
+    "description": "Monitor GVH Árfigyelő (arfigyelo.gvh.hu) daily prices across Auchan, Tesco, Lidl, Aldi, Spar, Penny. Get Telegram alerts on price drops, new products, or when price falls below your target.",
+    "version": "1.0",
+    "buildTag": "latest",
+    "dockerfile": "./Dockerfile",
+    "readme": "./README.md",
+    "input": "./input_schema.json"
+}

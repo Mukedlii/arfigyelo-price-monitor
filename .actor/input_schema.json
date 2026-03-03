@@ -1,0 +1,98 @@
+{
+    "title": "GVH Árfigyelő – Price Monitor",
+    "description": "Monitor Hungarian GVH Árfigyelő (arfigyelo.gvh.hu) for price drops and new products across Auchan, Tesco, Lidl, Aldi, Spar, Penny. Sends Telegram alerts on changes.",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "categories": {
+            "title": "Categories to monitor",
+            "type": "array",
+            "description": "Category slugs from arfigyelo.gvh.hu. Leave empty to monitor ALL categories.",
+            "editor": "stringList",
+            "default": [],
+            "example": ["tej-es-tejtermekek", "husok-es-huskeszitmények", "zoldsegek-es-gyumolcsok"]
+        },
+        "keywords": {
+            "title": "Product keyword filter (optional)",
+            "type": "array",
+            "description": "Only include products whose name contains at least one keyword (accent-insensitive).",
+            "editor": "stringList",
+            "default": [],
+            "example": ["csirkemell", "tej", "tojás"]
+        },
+        "retailers": {
+            "title": "Retailers to include",
+            "type": "array",
+            "description": "Filter by retailer. Leave empty for all.",
+            "editor": "checkboxes",
+            "default": [],
+            "items": {
+                "type": "string",
+                "enum": ["auchan", "tesco", "lidl", "aldi", "spar", "penny"],
+                "enumTitles": ["Auchan", "Tesco", "Lidl", "Aldi", "Spar", "Penny"]
+            }
+        },
+        "alert_price_drop_pct": {
+            "title": "Alert: price drop % threshold",
+            "type": "integer",
+            "description": "Send alert if price dropped by at least this % since last run. 0 = disabled.",
+            "default": 5,
+            "minimum": 0,
+            "maximum": 100,
+            "editor": "number"
+        },
+        "alert_price_below": {
+            "title": "Alert: price below (Ft)",
+            "type": "integer",
+            "description": "Send alert if current price is below this amount in HUF. 0 = disabled.",
+            "default": 0,
+            "minimum": 0,
+            "editor": "number"
+        },
+        "alert_new_product": {
+            "title": "Alert: new product in category",
+            "type": "boolean",
+            "description": "Send alert when a product appears for the first time (not seen in previous runs).",
+            "default": false,
+            "editor": "checkbox"
+        },
+        "delta_mode": {
+            "title": "Delta mode",
+            "type": "boolean",
+            "description": "Only process and alert on changes since last run. Disable for full dataset export.",
+            "default": true,
+            "editor": "checkbox"
+        },
+        "max_items": {
+            "title": "Max products to fetch",
+            "type": "integer",
+            "description": "Maximum total products to fetch. 0 = unlimited.",
+            "default": 500,
+            "minimum": 0,
+            "maximum": 10000,
+            "editor": "number"
+        },
+        "telegram_bot_token": {
+            "title": "Telegram bot token",
+            "type": "string",
+            "description": "Your Telegram bot token (from @BotFather). Required for Telegram alerts.",
+            "editor": "textfield",
+            "isSecret": true,
+            "example": "123456789:ABCdefGHIjklMNOpqrSTUvwxYZ"
+        },
+        "telegram_chat_id": {
+            "title": "Telegram chat ID",
+            "type": "string",
+            "description": "Your Telegram chat or group ID. Get it via @userinfobot.",
+            "editor": "textfield",
+            "example": "-1001234567890"
+        },
+        "webhook_url": {
+            "title": "Webhook URL (optional)",
+            "type": "string",
+            "description": "POST results to this URL (Zapier, Make, n8n, etc.)",
+            "editor": "textfield"
+        }
+    },
+    "required": []
+}
