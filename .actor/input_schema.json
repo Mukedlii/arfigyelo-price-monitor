@@ -24,7 +24,7 @@
             "title": "Retailers to include",
             "type": "array",
             "description": "Filter by retailer. Leave empty for all.",
-            "editor": "checkboxes",
+            "editor": "select",
             "default": [],
             "items": {
                 "type": "string",
