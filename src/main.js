@@ -85,8 +85,15 @@ for (const item of allItems) {
 log.info(`Saved ${allItems.length} items to dataset`);
 
 // ─── 4. Telegram alerts ───────────────────────────────────────────────────────
+if (telegram_bot_token && !telegram_chat_id) {
+    log.warning('Telegram configured partially: telegram_bot_token is set but telegram_chat_id is missing. Skipping Telegram.');
+}
+if (!telegram_bot_token && telegram_chat_id) {
+    log.warning('Telegram configured partially: telegram_chat_id is set but telegram_bot_token is missing. Skipping Telegram.');
+}
+
 if (telegram_bot_token && telegram_chat_id && alerts.length > 0) {
-    log.info(`Sending ${alerts.length} Telegram alerts...`);
+    log.info(`Sending Telegram alert summary (${alerts.length} alerts)...`);
     const runUrl = `https://console.apify.com/storage/datasets/${dataset.id}`;
     await sendTelegramAlerts({
         botToken: telegram_bot_token,
@@ -95,7 +102,7 @@ if (telegram_bot_token && telegram_chat_id && alerts.length > 0) {
         runUrl,
     });
 } else if (alerts.length > 0) {
-    log.info(`${alerts.length} alerts triggered but no Telegram configured. Set telegram_bot_token + telegram_chat_id to receive alerts.`);
+    log.info(`${alerts.length} alerts triggered but no Telegram configured.`);
 }
 
 // ─── 5. Webhook ───────────────────────────────────────────────────────────────

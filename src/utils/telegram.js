@@ -9,8 +9,8 @@ import { log } from 'apify';
 const TELEGRAM_API = 'https://api.telegram.org/bot';
 
 /**
- * Send a batch of price alerts to Telegram.
- * Groups alerts into chunks to avoid message length limits.
+ * Send ONE summary message to Telegram.
+ * Store-friendly: avoid spamming chats with many messages.
  */
 export async function sendTelegramAlerts({ botToken, chatId, alerts, runUrl = null }) {
     if (!botToken || !chatId || alerts.length === 0) return;
@@ -37,18 +37,14 @@ export async function sendTelegramAlerts({ botToken, chatId, alerts, runUrl = nu
     const header = `🇭🇺 *Árfigyelő értesítő*\n${new Date().toLocaleDateString('hu-HU')}\n\n`;
     const footer = runUrl ? `\n\n[📊 Teljes adatset](${runUrl})` : '';
     const body   = sections.join('\n\n');
-    const message = header + body + footer;
 
-    // Split into chunks if too long (Telegram max: 4096 chars)
-    const chunks = splitMessage(message, 4000);
+    // Telegram max 4096 chars. We hard-trim to keep it single message.
+    const msg = (header + body + footer).slice(0, 3950) + ((header + body + footer).length > 3950 ? "\n\n…(túl hosszú, vágva)" : "");
 
-    for (const chunk of chunks) {
-        await sendMessage(botToken, chatId, chunk);
-        await sleep(300); // rate limit safety
-    }
-
-    log.info(`Telegram: ${chunks.length} message(s) sent to chat ${chatId}`);
+    const ok = await sendMessage(botToken, chatId, msg);
+    if (ok) log.info(`Telegram: 1 summary message sent to chat ${chatId}`);
 }
+
 
 function formatDropAlert(alert) {
     const drop = alert.price_drop_pct ? ` (-${alert.price_drop_pct}%)` : '';
@@ -82,9 +78,12 @@ async function sendMessage(botToken, chatId, text) {
         if (!res.ok) {
             const err = await res.text();
             log.warning('Telegram send failed', { status: res.status, body: err });
+            return false;
         }
+        return true;
     } catch (err) {
         log.warning('Telegram request error', { error: err.message });
+        return false;
     }
 }
 
