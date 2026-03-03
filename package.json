@@ -10,8 +10,6 @@
     },
     "dependencies": {
         "apify": "^3.2.2",
-        "crawlee": "^3.5.8",
-        "playwright": "^1.52.0",
         "node-fetch": "^3.3.2"
     },
     "engines": {
